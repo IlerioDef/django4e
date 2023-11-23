@@ -18,16 +18,9 @@ def run():
     for row in reader:
         print("Row type", type(row))
         q = Question(question_text=row[0], pub_date=timezone.now())
+        q.save()
         for element in row[1:]:
             q.choice_set.create(choice_text=element, votes=0)
-            print("This is element", q)
-        q.save()
-
-        print(q.id, q.question_text)
-
-        # Make a new Question and save it
-
-        # Loop through the choice strings in row[1:] and add each choice,
-        # connect it to the question and save it
+            q.save()
 
     print("=== Load Complete")
