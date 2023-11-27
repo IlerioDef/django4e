@@ -1,17 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
+    {% extends "base_bootstrap.html" %}
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Title</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>{{ settings.APP_NAME }}</title>
+    <!-- edit samples/settings.py and add APP_NAME='DJ4E Samples' or similar
+        Also make sure that home/context_processors.py exists and is included
+        settings.py context processors as 'home.context_processors.settings' -->
 </head>
 <body>
-<ul>
-<li class="">94ae76ab </li>
-<li><p><a href="/polls">A Polls Application</a></p></li>
-<li><a href="/autos">Autos CRUD</a></li>
-<li><a href="/cats">Cats CRUD</a></li>
-</ul>
+{% block content %}
+    <h1>Welcome to {{ settings.APP_NAME }}</h1>
+    <p>
+    Hello world.
+    </p>
+{% endblock content %}
 </body>
 </html>
