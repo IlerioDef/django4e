@@ -169,6 +169,17 @@ LOGIN_REDIRECT_URL = '/'
 # https://stackoverflow.com/questions/67783120/warning-auto-created-primary-key-used-when-not-defining-a-primary-key-type-by
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
+CSRF_TRUSTED_ORIGINS = [
+    # "http://...",
+    # "https://...",
+    "https://*.ngrok-free.app",
+    # "https://www.*.dj4e.com/",
+    # "https://funny-trams-report.loca.lt/",
+    # # "https://www.dj4e.com/",
+    # # "https://*.tsugi.org",
+]
+# CSRF_COOKIE_DOMAIN = "https://..."
+CSRF_COOKIE_SAMESITE = None
 # https://coderwall.com/p/uzhyca/quickly-setup-sql-query-logging-django
 # https://stackoverflow.com/questions/12027545/determine-if-django-is-running-under-the-development-server
 
