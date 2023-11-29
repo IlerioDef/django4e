@@ -22,10 +22,14 @@ from django.views.static import serve
 from django.views.generic import TemplateView
 
 urlpatterns = [
-    path('', include('ads.urls')),  # Change to ads.urls
+    path('', include('home.urls')),  # Change to ads.urls
+    path('ads/', include('ads.urls')),  # Change to ads.urls
+
     path('admin/', admin.site.urls),  # Keep
     path('accounts/', include('django.contrib.auth.urls')),  # Keep
     re_path(r'^oauth/', include('social_django.urls', namespace='social')),  # Keep
+
+    # Sample applications
 
 ]
 
@@ -43,7 +47,7 @@ urlpatterns += [
 urlpatterns += [
     path('favicon.ico', serve, {
             'path': 'favicon.ico',
-            'document_root': os.path.join(BASE_DIR, '../home/static'),
+            'document_root': os.path.join(BASE_DIR, 'home/static'),
         }
     ),
 ]
