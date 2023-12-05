@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -19,7 +20,14 @@ class AdListView(OwnerListView):
     template_name = "ads/ad_list.html"
 
     def get(self, request):
-        ad_list = Ad.objects.all()
+        strval = request.GET.get("search", False)
+        if strval:
+            # Simple title-only search
+            query = Q(title__icontains=strval)
+            query.add(Q(text__icontains=strval), Q.OR)
+            ad_list = Ad.objects.filter(query).select_related().order_by('-updated_at')[:10]
+        else:
+            ad_list = Ad.objects.all()
         favorites = list()
         if request.user.is_authenticated:
             # rows = [{'id': 2}, {'id': 4} ... ]  (A list of rows)
