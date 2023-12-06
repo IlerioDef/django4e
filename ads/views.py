@@ -22,14 +22,15 @@ class AdListView(OwnerListView):
     def get(self, request):
         strval = request.GET.get("search", False)
         if strval:
-            # Simple title-only search
             query = Q(title__icontains=strval)
             query.add(Q(text__icontains=strval), Q.OR)
             query.add(Q(tags__name__in=[strval]), Q.OR)
+
             ad_list = Ad.objects.filter(query).select_related().order_by('-updated_at')[:10]
         else:
             ad_list = Ad.objects.all()
         favorites = list()
+
         if request.user.is_authenticated:
             # rows = [{'id': 2}, {'id': 4} ... ]  (A list of rows)
             rows = request.user.favorite_ads.values('id')
@@ -44,10 +45,10 @@ class AdDetailView(OwnerDetailView):
     template_name = "ads/ad_detail.html"
 
     def get(self, request, pk):
-        x = get_object_or_404(Ad, id=pk)
-        comments = Comment.objects.filter(ad=x).order_by('-updated_at')
+        ad = get_object_or_404(Ad, id=pk)
+        comments = Comment.objects.filter(ad=ad).order_by('-updated_at')
         comment_form = CommentForm()
-        context = {'ad': x, 'comments': comments, 'comment_form': comment_form}
+        context = {'ad': ad, 'comments': comments, 'comment_form': comment_form}
         return render(request, self.template_name, context)
 
 
@@ -71,6 +72,8 @@ class AdCreateView(LoginRequiredMixin, View):
         pic = form.save(commit=False)
         pic.owner = self.request.user
         pic.save()
+        form.save_m2m()
+
         return redirect(self.success_url)
 
 
@@ -102,6 +105,7 @@ class AdDeleteView(OwnerDeleteView):
     model = Ad
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class CommentCreateView(LoginRequiredMixin, View):
     def post(self, request, pk):
         f = get_object_or_404(Ad, id=pk)
