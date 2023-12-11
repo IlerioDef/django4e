@@ -20,7 +20,7 @@ class AdListView(OwnerListView):
     template_name = "ads/ad_list.html"
 
     def get(self, request):
-        strval = request.GET.get("search", False)
+        strval = request.GET.get("search")
         if strval:
             query = Q(title__icontains=strval)
             query.add(Q(text__icontains=strval), Q.OR)

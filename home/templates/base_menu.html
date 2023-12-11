@@ -8,6 +8,10 @@
       {% url 'ads:all' as x %}
       <li {% if request.get_full_path == x %}class="active"{% endif %}>
           <a class="nav-link" href="{% url 'ads:all' %}" role="button">Ads</a></li>
+      <li {% if request.get_full_path == x %}class="active"{% endif %}>
+          <a class="nav-link" href="{% url 'solo:all' %}" role="button">Solo</a></li>
+      <li {% if request.get_full_path == x %}class="active"{% endif %}>
+          <a class="nav-link" href="{% url 'solo:solo_alternative' %}" role="button">Solo as view</a></li>
     </ul>
     <ul class="navbar-nav">
       {% if user.is_authenticated %}

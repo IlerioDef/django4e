@@ -84,4 +84,4 @@ dmypy.json
 .pyre/
 .pytype/
 cython_debug/
-/autos/migrations/0001_initial.py
+/*/migrations/
